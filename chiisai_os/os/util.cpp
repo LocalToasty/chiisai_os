@@ -25,3 +25,7 @@ void os::util::set_mask(Port* port, uint8_t mask) {
 void os::util::clear_mask(Port* port, uint8_t mask) {
   *port &= ~mask;
 }
+
+void os::util::unreachable() {
+  os::output::error(0b10101010);
+}

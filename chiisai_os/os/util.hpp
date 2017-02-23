@@ -17,6 +17,12 @@ void write_bit(Port* port, uint8_t bit, bool value);
 void set_mask(Port* port, uint8_t mask);
 //! Clears multiple bits of a port.
 void clear_mask(Port* port, uint8_t mask);
+
+/*! Marks an unreachable point in the code.
+ *
+ * Displays an error and halts should it have been reached.
+ */
+[[noreturn]] void unreachable();
 }
 }
 
