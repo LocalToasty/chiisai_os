@@ -2,7 +2,6 @@
 #include "os/os.hpp"
 #include "os/util.hpp"
 #include <avr/io.h>
-#include <stdlib.h>
 
 using os::util::Port;
 using os::util::set_bit;
@@ -52,5 +51,8 @@ void os::output::write(uint8_t value, bool lsb_first) {
 void os::output::error(uint8_t error_code) {
   set_bit(error_port, error_pin);
   write(error_code);
-  exit(error_code);
+  
+  // don't exit
+  while (true) {
+  }
 }
