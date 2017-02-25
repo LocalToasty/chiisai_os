@@ -28,5 +28,11 @@ void os::util::clear_mask(Port* port, uint8_t mask) {
 }
 
 void os::util::unreachable() {
-  os::error::error(os::error::unreachable);
+  error::error(os::error::unreachable);
+}
+
+void os::util::assert(bool assertion) {
+  if (!assertion) {
+    error::error(os::error::assertion_failed);
+  }
 }

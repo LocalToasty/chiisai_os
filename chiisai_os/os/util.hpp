@@ -23,6 +23,8 @@ void clear_mask(Port* port, uint8_t mask);
  * Displays an error and halts should it have been reached.
  */
 [[noreturn]] void unreachable();
+
+void assert(bool assertion);
 }
 }
 

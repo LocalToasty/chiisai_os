@@ -9,6 +9,8 @@ namespace error {
 enum Error {
   unreachable = 1,
   isr_stack_too_small,
+  out_of_memory,
+  assertion_failed,
 };
 
 void init();

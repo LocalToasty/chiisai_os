@@ -1,5 +1,6 @@
 #include "os/process.hpp"
 
+#include "os/memory.hpp"
 #include "os/output.hpp"
 #include "os/util.hpp"
 #include <avr/io.h>
@@ -184,6 +185,11 @@ os::process::Pid os::process::exec(Program prog, size_t min_stack_size) {
     if (proc->next == nullptr) {
       proc->next = (Process*)((uint8_t*)proc - min_stack_size - context_size -
                               sizeof(Process));
+      // check if there is enough space for another process
+      if ((uint8_t*)proc->next < memory::top_of_heap()) {
+        proc->next = nullptr;
+        return NullPid;
+      }
       *proc->next = Process();
     }
 
@@ -206,6 +212,14 @@ os::process::Pid os::process::exec(Program prog, size_t min_stack_size) {
 
 os::process::Pid os::process::get_pid() {
   return current_process;
+}
+
+uint8_t* os::process::beginning_of_process_stacks() {
+  Process* proc = root_process;
+  while (proc->next) {
+    proc = proc->next;
+  }
+  return (uint8_t*)proc;
 }
 
 /*! Returns the next process to be executed.

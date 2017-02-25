@@ -26,5 +26,6 @@ void init_proc() {
   os::process::exec(io);
 
   // don't terminate
-  while (true) {}
+  while (true) {
+  }
 }
