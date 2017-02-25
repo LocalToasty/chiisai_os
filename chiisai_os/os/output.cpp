@@ -10,11 +10,6 @@ using os::util::clear_bit;
 using os::util::write_bit;
 using os::util::set_mask;
 
-// Location of the error led
-constexpr Port* error_ddr = &DDRB;
-constexpr Port* error_port = &PORTB;
-constexpr uint8_t error_pin = PORTB5;
-
 // Location of the shift register connected to output LEDs
 constexpr Port* shift_reg_ddr = &DDRB;
 constexpr Port* shift_reg_port = &PORTB;
@@ -23,10 +18,6 @@ constexpr uint8_t clock_pin = PORTB1;
 constexpr uint8_t latch_pin = PORTB0;
 
 void os::output::init() {
-  // initialize and clear error led
-  set_bit(error_ddr, error_pin);
-  clear_bit(error_port, error_pin);
-
   // initialize and clear output
   set_mask(shift_reg_ddr, _BV(data_pin) | _BV(clock_pin) | _BV(latch_pin));
   clear_bit(shift_reg_port, clock_pin);
@@ -55,14 +46,5 @@ void os::output::write(uint8_t value, uint8_t mask, bool lsb_first) {
     }
 
     set_bit(shift_reg_port, latch_pin);
-  }
-}
-
-void os::output::error(uint8_t error_code) {
-  set_bit(error_port, error_pin);
-  write(error_code);
-  
-  // don't exit
-  while (true) {
   }
 }
